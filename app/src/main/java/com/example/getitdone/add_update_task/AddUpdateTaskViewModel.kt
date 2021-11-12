@@ -14,27 +14,23 @@ class AddUpdateTaskViewModel:ViewModel() {
 
     private val taskIdLiveData = MutableLiveData<UUID>()
 
-    private val taskDateLiveDate = MutableLiveData<Date>()
 
     var taskLiveData: LiveData<Task?> =
         Transformations.switchMap(taskIdLiveData){
             taskRepository.getTask(it)
         }
 
-    var taskDLiveData:LiveData<List<Task>> =
-        Transformations.switchMap(taskDateLiveDate){
-            taskRepository.getTaskByDate(it)
-        }
 
     fun loadTask (taskId:UUID){
         taskIdLiveData.value = taskId
     }
 
-    fun loadTasksByDate(taskDate:Date){
-        taskDateLiveDate.value = taskDate
+    fun addTask (task:Task){
+        taskRepository.addTask(task)
     }
 
-    fun saveUpdates(task:Task){
+
+    fun saveUpdates(task: Task){
         taskRepository.updateTask(task)
     }
 

@@ -1,29 +1,29 @@
 package com.example.getitdone.add_update_task
 
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.getitdone.*
 import com.example.getitdone.database.Task
+import com.example.getitdone.DatePickerFragment
+import com.example.getitdone.all_tasks.AllTasksFragment
+import com.example.getitdone.home.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
+
 
 const val TASK_DATE_KEY = "crime date "
 
-class AddUpdateTaskFragment : Fragment(),DatePickerFragment.DAtePickerCallBack {
+class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack {
 
     private lateinit var taskInputEt: EditText
     private lateinit var descInputEt: EditText
@@ -36,13 +36,13 @@ class AddUpdateTaskFragment : Fragment(),DatePickerFragment.DAtePickerCallBack {
     private lateinit var addTaskBtn: Button
     private lateinit var task: Task
 
+    private lateinit var taskDate:Date
+
     var taskCat:String = ""
-    var taskDate = Date()
 
     var catCount:Int = 0
 
     private val addUpdateTaskViewModel by lazy { ViewModelProvider(this).get(AddUpdateTaskViewModel::class.java)}
-    private val taskViewModel by lazy { ViewModelProvider(this).get(TaskViewModel::class.java) }
 
 
     override fun onCreateView(
@@ -50,6 +50,7 @@ class AddUpdateTaskFragment : Fragment(),DatePickerFragment.DAtePickerCallBack {
         savedInstanceState: Bundle?
     ): View? {
         val view  = inflater.inflate(R.layout.fragment_add_update_task, container, false)
+
 
         taskInputEt = view.findViewById(R.id.task_in_et)
         descInputEt = view.findViewById(R.id.desc_in_et)
@@ -61,47 +62,67 @@ class AddUpdateTaskFragment : Fragment(),DatePickerFragment.DAtePickerCallBack {
         dateTv = view.findViewById(R.id.date_tv)
         addTaskBtn = view.findViewById(R.id.add_task_btn)
 
-        dateTv.apply {
-            text = DateFormat.format(DATE_FORMAT, taskDate)
-        }
 
         personalCatBtn.setOnClickListener{
             taskCat = "personal"
             if (catCount == 0){
-                shoppingCatBtn.isVisible = false
-                workCatBtn.isVisible = false
-                habitCatBtn.isVisible = false
+                shoppingCatBtn.visibility = View.GONE
+                workCatBtn.visibility = View.GONE
+                habitCatBtn.visibility = View.GONE
                 catCount = 1
             } else {
-                shoppingCatBtn.isVisible = true
-                workCatBtn.isVisible = true
-                habitCatBtn.isVisible = true
+                shoppingCatBtn.visibility = View.VISIBLE
+                workCatBtn.visibility = View.VISIBLE
+                habitCatBtn.visibility = View.VISIBLE
                 catCount = 0
             }
         }
 
         shoppingCatBtn.setOnClickListener {
             taskCat = "shopping"
-            val color = Color.GRAY
-            shoppingCatBtn.backgroundTintList = ColorStateList.valueOf(color)
+            if (catCount == 0){
+                personalCatBtn.visibility = View.GONE
+                workCatBtn.visibility = View.GONE
+                habitCatBtn.visibility = View.GONE
+                catCount = 1
+            } else {
+                personalCatBtn.visibility = View.VISIBLE
+                workCatBtn.visibility = View.VISIBLE
+                habitCatBtn.visibility = View.VISIBLE
+                catCount = 0
+            }
 
         }
 
         workCatBtn.setOnClickListener {
             taskCat = "work"
-            val color = Color.GRAY
-            workCatBtn.backgroundTintList = ColorStateList.valueOf(color)
+            if (catCount == 0){
+                personalCatBtn.visibility = View.GONE
+                shoppingCatBtn.visibility = View.GONE
+                habitCatBtn.visibility = View.GONE
+                catCount = 1
+            } else {
+                personalCatBtn.visibility = View.VISIBLE
+                shoppingCatBtn.visibility = View.VISIBLE
+                habitCatBtn.visibility = View.VISIBLE
+                catCount = 0
+            }
         }
 
         habitCatBtn.setOnClickListener {
             taskCat = "habit"
-            val color = Color.GRAY
-            habitCatBtn.backgroundTintList = ColorStateList.valueOf(color)
+            if (catCount == 0){
+                personalCatBtn.visibility = View.GONE
+                shoppingCatBtn.visibility = View.GONE
+                workCatBtn.visibility = View.GONE
+                catCount = 1
+            } else {
+                personalCatBtn.visibility = View.VISIBLE
+                shoppingCatBtn.visibility = View.VISIBLE
+                workCatBtn.visibility = View.VISIBLE
+                catCount = 0
+            }
         }
-
-
-
-
 
         return view
     }
@@ -110,7 +131,7 @@ class AddUpdateTaskFragment : Fragment(),DatePickerFragment.DAtePickerCallBack {
         super.onStart()
 
         dateBtn.setOnClickListener {
-
+            taskDate = Date()
             val args = Bundle()
             args.putSerializable(TASK_DATE_KEY, taskDate)
             val datePicker = DatePickerFragment()
@@ -122,25 +143,48 @@ class AddUpdateTaskFragment : Fragment(),DatePickerFragment.DAtePickerCallBack {
         }
 
         addTaskBtn.setOnClickListener {
-            val taskTitle = taskInputEt.text.toString()
-            val taskDesc = descInputEt.text.toString()
-            task.taskTitle = taskTitle
-            task.taskDescription = taskDesc
-            task.taskCategory = taskCat
-            task.taskDate = taskDate
-
-            taskViewModel.addTask(task)
-
-            val args = Bundle()
-            val fragment = TaskFragment()
-            fragment.arguments = args
-            activity?.let {
-                it.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragmentContainerView,fragment)
-                    .commit()
+            if(updateTask =="update"){
+                updateTask = ""
+                val taskTitle = taskInputEt.text.toString()
+                val taskDesc = descInputEt.text.toString()
+                task.taskTitle = taskTitle
+                task.taskDescription = taskDesc
+                task.taskCategory = taskCat
+                task.taskDate = taskDate
                 addUpdateTaskViewModel.saveUpdates(task)
+                val args = Bundle()
+                val fragment = TaskFragment()
+                fragment.arguments = args
+                activity?.let {
+                    it.supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainerView,fragment)
+                        .commit()
+                }
+            } else {
+                if (dateTv.text.isBlank()){
+                    dateTv.text = getString(R.string.pick_date_warrning)
+                    dateTv.setTextColor(Color.RED)
+                } else {
+                    val taskTitle = taskInputEt.text.toString()
+                    val taskDesc = descInputEt.text.toString()
+                    task.taskTitle = taskTitle
+                    task.taskDescription = taskDesc
+                    task.taskCategory = taskCat
+                    task.taskDate = taskDate
+                    addUpdateTaskViewModel.addTask(task)
+                    val args = Bundle()
+                    val fragment = TaskFragment()
+                    fragment.arguments = args
+                    activity?.let {
+                        it.supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragmentContainerView,fragment)
+                            .commit()
+                    }
+                }
             }
+
 
         }
 
@@ -148,21 +192,29 @@ class AddUpdateTaskFragment : Fragment(),DatePickerFragment.DAtePickerCallBack {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        addUpdateTaskViewModel.taskLiveData.observe(viewLifecycleOwner, Observer{
-            it?.let {
-                task = it
-                taskInputEt.setText(it.taskTitle)
-                dateTv.text = it.taskDate.toString()
-                descInputEt.setText(it.taskDescription)
-            }
-        })
+        if(updateTask == "update"){
+            addUpdateTaskViewModel.taskLiveData.observe(viewLifecycleOwner, Observer{
+                it?.let {
+                    task = it
+                    taskInputEt.setText(it.taskTitle)
+                    dateTv.text = DateFormat.format(DATE_FORMAT, it.taskDate)
+                    descInputEt.setText(it.taskDescription)
+                }
+            })
+        }
 
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         task = Task()
+        if ( updateTask == "update"){
+            val taskID = arguments?.getSerializable(KEY_ID) as UUID
+            addUpdateTaskViewModel.loadTask(taskID)
+        }
+
 
     }
 
@@ -170,5 +222,7 @@ class AddUpdateTaskFragment : Fragment(),DatePickerFragment.DAtePickerCallBack {
         taskDate = date
         dateTv.text = DateFormat.format(DATE_FORMAT, taskDate)
     }
+
+
 
 }

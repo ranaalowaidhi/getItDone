@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/app_top_bar.xml" value="0.1385" />
         <entry key="app/src/main/res/drawable/card_bg_shape.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/cat_bg_shape.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/cat_bg_yellow.xml" value="0.1365" />
@@ -24,14 +25,18 @@
         <entry key="app/src/main/res/drawable/ic_circle_personal.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable/ic_circle_shopping.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/ic_circle_work.xml" value="0.1365" />
+        <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_not_checked.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable/layout_bg_shape.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/nav_bar_selector.xml" value="0.1365" />
+        <entry key="app/src/main/res/layout-v28/fragment_task.xml" value="0.24947916666666667" />
         <entry key="app/src/main/res/layout/activity_add_task.xml" value="0.25052083333333336" />
+        <entry key="app/src/main/res/layout/activity_all_task.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_add_update_task.xml" value="0.25052083333333336" />
-        <entry key="app/src/main/res/layout/fragment_task.xml" value="0.25052083333333336" />
-        <entry key="app/src/main/res/layout/home_task_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_add_update_task.xml" value="0.22141571044921876" />
+        <entry key="app/src/main/res/layout/fragment_all_tasks.xml" value="0.23647511800130208" />
+        <entry key="app/src/main/res/layout/fragment_task.xml" value="0.4563385009765625" />
+        <entry key="app/src/main/res/layout/home_task_item.xml" value="0.18633540372670807" />
         <entry key="app/src/main/res/menu/nav_menu.xml" value="0.25052083333333336" />
       </map>
     </option>

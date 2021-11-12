@@ -1,4 +1,4 @@
-package com.example.getitdone
+package com.example.getitdone.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -10,11 +10,11 @@ import java.util.*
 class TaskViewModel:ViewModel() {
 
 
-        private val taskRepository = TaskRepository.get()
+    private val taskRepository = TaskRepository.get()
     val taskLiveData = taskRepository.getTaskByDate(todayDate)
 
-    fun addTask(task: Task) {
-        taskRepository.addTask(task)
+    fun deleteTask(task:Task){
+        taskRepository.deleteTask(task)
     }
 
 

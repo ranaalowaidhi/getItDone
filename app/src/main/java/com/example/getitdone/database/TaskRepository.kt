@@ -3,6 +3,7 @@ package com.example.getitdone.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import com.example.getitdone.home.todayDate
 import java.lang.IllegalStateException
 import java.util.*
 import java.util.concurrent.Executors
@@ -31,7 +32,11 @@ class TaskRepository private constructor(context: Context) {
         return taskDao.getTaskByDate(date)
     }
 
-    fun updateTask(task:Task){
+//    fun getOverDueCount(data:Date): Int{
+//        return taskDao.getOverDueCount(data)
+//    }
+
+    fun updateTask(task: Task){
         executor.execute {
             taskDao.updateTask(task)
         }
@@ -40,6 +45,12 @@ class TaskRepository private constructor(context: Context) {
     fun addTask(task: Task) {
         executor.execute{
             taskDao.addTask(task)
+        }
+    }
+
+    fun deleteTask(task: Task) {
+        executor.execute{
+            taskDao.deleteTask(task)
         }
     }
 

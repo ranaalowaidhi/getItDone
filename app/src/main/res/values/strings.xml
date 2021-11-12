@@ -17,4 +17,8 @@
     <string name="description">Description</string>
     <string name="date">Date</string>
     <string name="add_task">Add Task</string>
+    <string name="your_tasks">Your Tasks</string>
+    <string name="save">Save</string>
+    <string name="pick_date_warrning">You Must Pick A Date!</string>
+    <string name="due_tasks">Due Tasks</string>
 </resources>

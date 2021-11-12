@@ -25,10 +25,23 @@
     <color name="purple">#B3498B</color>
     <color name="pink">#EF7779</color>
     <color name="orange">#F7A654</color>
-    <color name="yellow">#FFE727</color>
+    <color name="yellow">#FFDF0D</color>
     <color name="green">#3EAFA5</color>
     <color name="blue">#5763CF</color>
     <color name="red">#E14E65</color>
+
+<!--    <color name="purple">#7574b6</color>-->
+<!--    <color name="pink">#ef8b90</color>-->
+<!--    <color name="orange">#f4a75b</color>-->
+<!--    <color name="yellow">#c1a8a7</color>-->
+<!--    <color name="green">#5dc0ce</color>-->
+<!--    <color name="blue">#6bbbe8</color>-->
+<!--    <color name="red">#E14E65</color>-->
+
+
+
+
+
 
     <color name="purple11">#B991D9</color>
     <color name="purple22">#907ECD</color>

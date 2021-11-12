@@ -7,10 +7,10 @@ import java.util.*
 
 @Entity
 data class Task (
-    @PrimaryKey val id: UUID = UUID.randomUUID(),
+    @PrimaryKey var id: UUID = UUID.randomUUID(),
     var taskTitle:String = "",
     var taskDescription:String = "",
     var taskCategory:String = "",
     var taskDate:Date = Date(),
-    var isChecked:Boolean = false){
+    var isChecked:Int = 0){
 }
