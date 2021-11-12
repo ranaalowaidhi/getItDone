@@ -150,6 +150,9 @@ class TaskFragment : Fragment() {
         val taskDateTv: TextView = itemView.findViewById(R.id.task_date_tv)
         val taskItem:ConstraintLayout = itemView.findViewById(R.id.task_item)
         val taskDescTv:TextView = itemView.findViewById(R.id.task_desc_tv)
+        val taskLoctionTv:TextView = itemView.findViewById(R.id.det_location_tv)
+        val taskAddressTv:TextView = itemView.findViewById(R.id.det_address_tv)
+        val locationTitleTv:TextView = itemView.findViewById(R.id.location_title_tv)
 
 
         fun bind(task: Task){
@@ -157,6 +160,9 @@ class TaskFragment : Fragment() {
             taskTitleTv.text = task.taskTitle
             taskDateTv.text = format(DATE_FORMAT,task.taskDate)
             taskDescTv.visibility = View.GONE
+            taskLoctionTv.visibility = View.GONE
+            taskAddressTv.visibility = View.GONE
+            locationTitleTv.visibility = View.GONE
             if (task.isChecked == 1){
                 taskCheckBox.setImageResource(R.drawable.ic_checked)
             }
@@ -188,8 +194,17 @@ class TaskFragment : Fragment() {
                     viewIsClicked = 1
                     taskDescTv.visibility = View.VISIBLE
                     taskDescTv.text = task.taskDescription
+                    locationTitleTv.visibility = View.VISIBLE
+                    taskLoctionTv.visibility = View.VISIBLE
+                    taskLoctionTv.text = task.taskLocation
+                    taskAddressTv.visibility =View.VISIBLE
+                    taskAddressTv.text = task.taskAddress
+
                 } else if (viewIsClicked == 1){
                     taskDescTv.visibility = View.GONE
+                    locationTitleTv.visibility = View.GONE
+                    taskLoctionTv.visibility = View.GONE
+                    taskAddressTv.visibility = View.GONE
                     viewIsClicked = 0
 
                 }

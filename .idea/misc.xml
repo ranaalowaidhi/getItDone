@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/drawable/cat_tag_shopping.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/cat_tag_work.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.1365" />
+        <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_checked.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable/ic_circle.xml" value="0.1365" />
         <entry key="app/src/main/res/drawable/ic_circle_checked.xml" value="0.1365" />
@@ -33,9 +34,11 @@
         <entry key="app/src/main/res/layout/activity_add_task.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_all_task.xml" value="0.25052083333333336" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_map.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_add_update_task.xml" value="0.22141571044921876" />
         <entry key="app/src/main/res/layout/fragment_all_tasks.xml" value="0.23647511800130208" />
-        <entry key="app/src/main/res/layout/fragment_task.xml" value="0.4563385009765625" />
+        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.25052083333333336" />
+        <entry key="app/src/main/res/layout/fragment_task.xml" value="0.375" />
         <entry key="app/src/main/res/layout/home_task_item.xml" value="0.18633540372670807" />
         <entry key="app/src/main/res/menu/nav_menu.xml" value="0.25052083333333336" />
       </map>

@@ -1,23 +1,21 @@
 package com.example.getitdone.add_update_task
 
-import android.content.res.ColorStateList
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.getitdone.*
 import com.example.getitdone.database.Task
 import com.example.getitdone.DatePickerFragment
-import com.example.getitdone.all_tasks.AllTasksFragment
 import com.example.getitdone.home.*
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
 
 
@@ -34,13 +32,20 @@ class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack 
     private lateinit var dateBtn: LinearLayout
     private lateinit var dateTv: TextView
     private lateinit var addTaskBtn: Button
+    private lateinit var mapBtn: ImageView
     private lateinit var task: Task
+    private lateinit var locationNameTv: TextView
+    private lateinit var locationAddressTv: TextView
 
     private lateinit var taskDate:Date
 
     var taskCat:String = ""
-
     var catCount:Int = 0
+    var taskTitle = ""
+    var taskDesc = ""
+    var taskLocation = ""
+    var taskAddress = ""
+
 
     private val addUpdateTaskViewModel by lazy { ViewModelProvider(this).get(AddUpdateTaskViewModel::class.java)}
 
@@ -61,6 +66,31 @@ class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack 
         dateBtn = view.findViewById(R.id.date_btn)
         dateTv = view.findViewById(R.id.date_tv)
         addTaskBtn = view.findViewById(R.id.add_task_btn)
+        mapBtn = view.findViewById(R.id.map_btn)
+        locationNameTv = view.findViewById(R.id.location_name_tv)
+        locationAddressTv = view.findViewById(R.id.location_address_tv)
+
+        if (completeAdding == "complete"){
+            taskLocation = arguments?.getSerializable("location name") as String
+            taskAddress = arguments?.getSerializable("location address") as String
+            val taskTitle2 = arguments?.getSerializable("taskTitle") as String
+            val taskDesc2 = arguments?.getSerializable("taskDesc") as String
+
+            taskInputEt.setText(taskTitle2)
+            descInputEt.setText(taskDesc2)
+            locationNameTv.text = taskLocation
+            locationAddressTv.text = taskAddress
+        }
+
+
+        mapBtn.setOnClickListener {
+            taskTitle = taskInputEt.text.toString()
+            taskDesc = descInputEt.text.toString()
+            val intent = Intent(this.requireContext(), MapActivity::class.java)
+            intent.putExtra("taskTitle",taskTitle)
+            intent.putExtra("taskDesc",taskDesc)
+            startActivity(intent)
+        }
 
 
         personalCatBtn.setOnClickListener{
@@ -124,11 +154,16 @@ class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack 
             }
         }
 
+
+
+
         return view
     }
 
+
     override fun onStart() {
         super.onStart()
+
 
         dateBtn.setOnClickListener {
             taskDate = Date()
@@ -145,12 +180,14 @@ class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack 
         addTaskBtn.setOnClickListener {
             if(updateTask =="update"){
                 updateTask = ""
-                val taskTitle = taskInputEt.text.toString()
-                val taskDesc = descInputEt.text.toString()
+                taskTitle = taskInputEt.text.toString()
+                taskDesc = descInputEt.text.toString()
                 task.taskTitle = taskTitle
                 task.taskDescription = taskDesc
                 task.taskCategory = taskCat
                 task.taskDate = taskDate
+                task.taskLocation = taskLocation
+                task.taskAddress = taskAddress
                 addUpdateTaskViewModel.saveUpdates(task)
                 val args = Bundle()
                 val fragment = TaskFragment()
@@ -166,12 +203,14 @@ class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack 
                     dateTv.text = getString(R.string.pick_date_warrning)
                     dateTv.setTextColor(Color.RED)
                 } else {
-                    val taskTitle = taskInputEt.text.toString()
-                    val taskDesc = descInputEt.text.toString()
+                    taskTitle = taskInputEt.text.toString()
+                    taskDesc = descInputEt.text.toString()
                     task.taskTitle = taskTitle
                     task.taskDescription = taskDesc
                     task.taskCategory = taskCat
                     task.taskDate = taskDate
+                    task.taskLocation = taskLocation
+                    task.taskAddress = taskAddress
                     addUpdateTaskViewModel.addTask(task)
                     val args = Bundle()
                     val fragment = TaskFragment()
@@ -199,6 +238,8 @@ class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack 
                     taskInputEt.setText(it.taskTitle)
                     dateTv.text = DateFormat.format(DATE_FORMAT, it.taskDate)
                     descInputEt.setText(it.taskDescription)
+                    locationNameTv.setText(it.taskLocation)
+                    locationAddressTv.setText(taskAddress)
                 }
             })
         }
@@ -214,7 +255,6 @@ class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack 
             val taskID = arguments?.getSerializable(KEY_ID) as UUID
             addUpdateTaskViewModel.loadTask(taskID)
         }
-
 
     }
 

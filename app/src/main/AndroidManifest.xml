@@ -3,6 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.getitdone">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".database.TaskApplication"
         android:allowBackup="true"
@@ -15,10 +23,7 @@
         android:theme="@style/Theme.GetItDone"
         tools:targetApi="31">
         <activity
-            android:name=".all_tasks.AllTaskActivity"
-            android:exported="false" />
-        <activity
-            android:name=".home.AddTaskActivity"
+            android:name=".add_update_task.MapActivity"
             android:exported="false" />
         <activity
             android:name=".home.MainActivity"
@@ -33,6 +38,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDAe2cxVzrozHWDlpl4x5iR8fwm10AZFkA" />
     </application>
 
 </manifest>
