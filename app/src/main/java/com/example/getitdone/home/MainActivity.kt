@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.getitdone.R
 import com.example.getitdone.add_update_task.AddUpdateTaskFragment
+import com.example.getitdone.add_update_task.FRAGMENT
 import com.example.getitdone.all_tasks.AllTasksFragment
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -38,12 +39,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.home_btn -> {
-                val fragmentName = intent.getIntExtra("fragment",0)
+//                val fragmentName = intent.getIntExtra("fragment",0)
                 val locationName = intent.getStringExtra("locationName")
                 val addressLine = intent.getStringExtra("locationAddress")
                 val taskDesc = intent.getStringExtra("taskDesc")
                 val taskTitle = intent.getStringExtra("taskTitle")
-                if (fragmentName == 1){
+                if (FRAGMENT == 1){
+                    FRAGMENT = 0
                     val args = Bundle()
                     args.putSerializable("location name",locationName)
                     args.putSerializable("location address",addressLine)
@@ -53,7 +55,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     val addTaskFragment = AddUpdateTaskFragment()
                     addTaskFragment.arguments = args
                     supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView, addTaskFragment).commit()
-                } else{
+                } else if (FRAGMENT == 0){
                     supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView, firstFragment).commit()
                 }
                 return true

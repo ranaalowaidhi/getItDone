@@ -1,5 +1,6 @@
 package com.example.getitdone.add_update_task
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -16,11 +17,13 @@ import com.example.getitdone.*
 import com.example.getitdone.database.Task
 import com.example.getitdone.DatePickerFragment
 import com.example.getitdone.home.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 
 const val TASK_DATE_KEY = "crime date "
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack {
 
     private lateinit var taskInputEt: EditText
@@ -50,6 +53,7 @@ class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack 
     private val addUpdateTaskViewModel by lazy { ViewModelProvider(this).get(AddUpdateTaskViewModel::class.java)}
 
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -69,6 +73,9 @@ class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack 
         mapBtn = view.findViewById(R.id.map_btn)
         locationNameTv = view.findViewById(R.id.location_name_tv)
         locationAddressTv = view.findViewById(R.id.location_address_tv)
+
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
+        taskDate = sdf.parse(sdf.format(task.taskDate))
 
         if (completeAdding == "complete"){
             taskLocation = arguments?.getSerializable("location name") as String
@@ -199,10 +206,6 @@ class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack 
                         .commit()
                 }
             } else {
-                if (dateTv.text.isBlank()){
-                    dateTv.text = getString(R.string.pick_date_warrning)
-                    dateTv.setTextColor(Color.RED)
-                } else {
                     taskTitle = taskInputEt.text.toString()
                     taskDesc = descInputEt.text.toString()
                     task.taskTitle = taskTitle
@@ -222,7 +225,6 @@ class AddUpdateTaskFragment : Fragment(), DatePickerFragment.DAtePickerCallBack 
                             .commit()
                     }
                 }
-            }
 
 
         }

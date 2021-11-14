@@ -1,16 +1,14 @@
 package com.example.getitdone.home
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.Color
+import android.hardware.HardwareBuffer
 import android.os.Bundle
 import android.text.format.DateFormat.format
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.Transformation
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -22,9 +20,11 @@ import com.example.getitdone.R
 import com.example.getitdone.SwipeToDeleteCallBack
 import com.example.getitdone.add_update_task.AddUpdateTaskFragment
 import com.example.getitdone.add_update_task.AddUpdateTaskViewModel
-import com.example.getitdone.all_tasks.AllTasksFragment
+import com.example.getitdone.categories.HabitFragment
+import com.example.getitdone.categories.PersonalFragment
+import com.example.getitdone.categories.ShoppingFragment
+import com.example.getitdone.categories.WorkFragment
 import com.example.getitdone.database.Task
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,14 +32,11 @@ import java.util.*
 
 const val KEY_ID = "myTaskId"
 const val DATE_FORMAT = "EEE dd MMM yyyy"
-
 var todayDate = Date()
-
 var viewIsClicked:Int = 0
-
 var updateTask = ""
-
 var isCheckedDef = 0
+
 
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -47,8 +44,13 @@ class TaskFragment : Fragment() {
 
     lateinit var taskRecyclerView: RecyclerView
     private lateinit var fabBtn: FloatingActionButton
-        private val taskViewModel by lazy { ViewModelProvider(this).get(TaskViewModel::class.java) }
-        private val addUpdateTaskViewModel by lazy { ViewModelProvider(this).get(AddUpdateTaskViewModel::class.java)}
+    private val taskViewModel by lazy { ViewModelProvider(this).get(TaskViewModel::class.java) }
+    private val addUpdateTaskViewModel by lazy { ViewModelProvider(this).get(AddUpdateTaskViewModel::class.java)}
+
+    lateinit var personalBtn:RelativeLayout
+    lateinit var shoppingBtn:RelativeLayout
+    lateinit var workBtn:RelativeLayout
+    lateinit var habitBtn:RelativeLayout
 
 
 
@@ -77,6 +79,63 @@ class TaskFragment : Fragment() {
         val linearLayoutManager = LinearLayoutManager(context)
         taskRecyclerView.layoutManager = linearLayoutManager
 
+        personalBtn = view.findViewById(R.id.personal_cat_btn)
+        shoppingBtn = view.findViewById(R.id.shopping_cat_btn)
+        workBtn= view.findViewById(R.id.work_cat_btn)
+        habitBtn = view.findViewById(R.id.habit_cat_btn)
+
+        personalBtn.setOnClickListener {
+            val args = Bundle()
+            val fragment = PersonalFragment()
+            fragment.arguments = args
+            activity?.let {
+                it.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerView,fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+
+        shoppingBtn.setOnClickListener {
+            val args = Bundle()
+            val fragment = ShoppingFragment()
+            fragment.arguments = args
+            activity?.let {
+                it.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerView,fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+
+        workBtn.setOnClickListener {
+            val args = Bundle()
+            val fragment = WorkFragment()
+            fragment.arguments = args
+            activity?.let {
+                it.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerView,fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+
+        habitBtn.setOnClickListener {
+            val args = Bundle()
+            val fragment = HabitFragment()
+            fragment.arguments = args
+            activity?.let {
+                it.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerView,fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+
         fabBtn = view.findViewById(R.id.add_btn)
         fabBtn.setOnClickListener {
             val args = Bundle()
@@ -90,6 +149,7 @@ class TaskFragment : Fragment() {
                     .commit()
             }
         }
+
 
         return view
     }
@@ -141,18 +201,19 @@ class TaskFragment : Fragment() {
 
     }
 
-    private inner class TaskViewHolder(view:View):RecyclerView.ViewHolder(view){
+    inner class TaskViewHolder(view:View):RecyclerView.ViewHolder(view){
 
         private lateinit var task:Task
-        val taskTitleTv: TextView = itemView.findViewById(R.id.task_title_tv)
-        val taskTagColor: ImageView = itemView.findViewById(R.id.task_cat_tag_color)
+        val taskTitleTv: TextView = itemView.findViewById(R.id.duo_title_tv)
+        val taskTagColor: ImageView = itemView.findViewById(R.id.duo_cat_tag_color)
         val taskCheckBox: ImageView = itemView.findViewById(R.id.task_check_box)
-        val taskDateTv: TextView = itemView.findViewById(R.id.task_date_tv)
+        val taskDateTv: TextView = itemView.findViewById(R.id.duo_date_tv)
         val taskItem:ConstraintLayout = itemView.findViewById(R.id.task_item)
         val taskDescTv:TextView = itemView.findViewById(R.id.task_desc_tv)
         val taskLoctionTv:TextView = itemView.findViewById(R.id.det_location_tv)
         val taskAddressTv:TextView = itemView.findViewById(R.id.det_address_tv)
         val locationTitleTv:TextView = itemView.findViewById(R.id.location_title_tv)
+        val itemRoot:ConstraintLayout = itemView.findViewById(R.id.item_root)
 
 
         fun bind(task: Task){

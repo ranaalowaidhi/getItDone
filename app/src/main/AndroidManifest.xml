@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
 
     <uses-permission
@@ -41,6 +42,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDAe2cxVzrozHWDlpl4x5iR8fwm10AZFkA" />
+        <receiver android:name=".add_update_task.GeofenceReceiver"/>
     </application>
 
 </manifest>

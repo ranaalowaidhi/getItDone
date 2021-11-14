@@ -31,6 +31,9 @@ class TaskRepository private constructor(context: Context) {
     fun getTaskByDate(date:Date): LiveData<List<Task>>{
         return taskDao.getTaskByDate(date)
     }
+    fun getTaskByCat(taskCat:String): LiveData<List<Task>>{
+        return taskDao.getTaskByCat(taskCat)
+    }
 
 //    fun getOverDueCount(data:Date): Int{
 //        return taskDao.getOverDueCount(data)

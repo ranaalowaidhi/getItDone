@@ -8,24 +8,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="white_700">#f7f7f7</color>
-    <color name="gray_300">#504f4f</color>
-    <color name="light_green_500">#a5d6a7</color>
-    <color name="light_green_200">#CDE1CD</color>
-    <color name="light_brown_200">#BCAAA4</color>
     <color name="black_400">#2e2d2d</color>
-    <color name="light_yellow_200">#FBF3D0</color>
-    <color name="light_yellow_500">#f9e4a2</color>
-    <color name="light_pink_200">#eee2f2</color>
-    <color name="light_pink_500">#d4bad7</color>
-    <color name="light_blue_200">#d0edef</color>
-    <color name="light_blue_500">#9fccd3</color>
 
+    <color name="gray">#C4C4C4</color>
 
     <color name="purple">#B3498B</color>
     <color name="pink">#EF7779</color>
     <color name="orange">#F7A654</color>
-    <color name="yellow">#FFDF0D</color>
+    <color name="yellow">#c1a8a7</color>
     <color name="green">#3EAFA5</color>
     <color name="blue">#5763CF</color>
     <color name="red">#E14E65</color>
@@ -38,16 +28,5 @@
 <!--    <color name="blue">#6bbbe8</color>-->
 <!--    <color name="red">#E14E65</color>-->
 
-
-
-
-
-
-    <color name="purple11">#B991D9</color>
-    <color name="purple22">#907ECD</color>
-    <color name="green22">#B0E5C6</color>
-    <color name="yellow22">#FFF1DA</color>
-    <color name="orange22">#FAA6A0</color>
-    <color name="pink22">#EB8FA6</color>
 
 </resources>

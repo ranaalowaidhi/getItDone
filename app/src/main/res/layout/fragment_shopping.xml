@@ -12,28 +12,38 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="90sp"
+        android:backgroundTint="@color/yellow"
         android:background="@drawable/app_top_bar"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="114dp"
+            android:layout_height="90dp"
+            android:layout_marginBottom="-10sp"
+            android:src="@drawable/ic_shopping"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="#CDBBBB" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:fontFamily="@font/cairo_bold"
-        android:text="@string/your_tasks"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:fontFamily="@font/cairo_bold"
+            android:text="Shopping Tasks"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -41,7 +51,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="96dp"
         android:background="#F6F9FB"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
         tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
@@ -50,7 +60,7 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/all_task_rcv"
+                android:id="@+id/shopping_task_rcv"
                 android:layout_marginTop="10sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -1,5 +1,7 @@
 package com.example.getitdone.all_tasks
 
+import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.Log
@@ -9,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 
@@ -23,15 +24,13 @@ import com.example.getitdone.SwipeToDeleteCallBack
 import com.example.getitdone.add_update_task.AddUpdateTaskFragment
 import com.example.getitdone.database.Task
 import com.example.getitdone.home.*
+import com.google.firebase.database.collection.LLRBNode
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class AllTasksFragment : Fragment() {
-    lateinit var  dataFormat:Date
     lateinit var taskRecyclerView: RecyclerView
-    lateinit var dueTasksLo: LinearLayout
-    lateinit var dueTasksTv: TextView
     private val allTaskViewModel by lazy { ViewModelProvider(this).get(AllTaskViewModel::class.java) }
 
 
@@ -41,12 +40,10 @@ class AllTasksFragment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_all_tasks, container, false)
-        taskRecyclerView = view.findViewById(R.id.due_task_rcv)
+        taskRecyclerView = view.findViewById(R.id.all_task_rcv)
         val linearLayoutManager = LinearLayoutManager(context)
         taskRecyclerView.layoutManager = linearLayoutManager
 
-        dueTasksLo = view.findViewById(R.id.due_task_lo)
-        dueTasksTv = view.findViewById(R.id.due_task_tv)
 
         return view
     }
@@ -96,48 +93,57 @@ class AllTasksFragment : Fragment() {
         val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallBack)
         itemTouchHelper.attachToRecyclerView(taskRecyclerView)
 
-
-
     }
 
     private inner class TaskViewHolder(view:View):RecyclerView.ViewHolder(view){
         private lateinit var task:Task
-        var counter = 0
-        val taskTitleTv: TextView = itemView.findViewById(R.id.task_title_tv)
-        val taskTagColor: ImageView = itemView.findViewById(R.id.task_cat_tag_color)
+//        var counter = 0
+        val taskTitleTv: TextView = itemView.findViewById(R.id.duo_title_tv)
+        val taskTagColor: ImageView = itemView.findViewById(R.id.duo_cat_tag_color)
         val taskCheckBox: ImageView = itemView.findViewById(R.id.task_check_box)
-        val taskDateTv: TextView = itemView.findViewById(R.id.task_date_tv)
+        val taskDateTv: TextView = itemView.findViewById(R.id.duo_date_tv)
         val taskItem: ConstraintLayout = itemView.findViewById(R.id.task_item)
         val taskDescTv: TextView = itemView.findViewById(R.id.task_desc_tv)
         val taskLoctionTv:TextView = itemView.findViewById(R.id.det_location_tv)
         val taskAddressTv:TextView = itemView.findViewById(R.id.det_address_tv)
         val locationTitleTv:TextView = itemView.findViewById(R.id.location_title_tv)
 
-
-        fun bind(task: Task, counter: Int){
+        @SuppressLint("ResourceAsColor")
+        fun bind(task: Task){
             this.task = task
-            this.counter = counter
+//            this.counter = counter
             task.taskDate = formatDate(task.taskDate)
             val checkDate = Date()
-
+//
+//            if (task.taskDate.before(formatDate(checkDate))){
+//                this@TaskViewHolder.counter = counter - 1
+//                if (counter > 0){
+//                    dueTasksLo.visibility = View.VISIBLE
+//                    dueTasksTv.visibility = View.VISIBLE
+//                    dueTasksTv.text = "You Have $counter Tasks Over Due!"
+//                Log.d("Rana","$counter")
+//                } else if (counter < 0) {
+//                    dueTasksLo.visibility = View.INVISIBLE
+//                    dueTasksTv.visibility = View.INVISIBLE
+//                }
+//            }
             if (task.taskDate.before(formatDate(checkDate))){
-                counter - 1
-                if (counter > 0){
-                    dueTasksLo.visibility = View.VISIBLE
-                    dueTasksTv.visibility = View.VISIBLE
-                    dueTasksTv.text = "You Have $counter Tasks Over Due!"
-                Log.d("Rana","$counter")
-                } else if (counter < 0) {
-                    dueTasksLo.visibility = View.INVISIBLE
-                    dueTasksTv.visibility = View.INVISIBLE
-                }
-            }
-            taskTitleTv.text = task.taskTitle
-            taskDateTv.text = DateFormat.format(DATE_FORMAT, task.taskDate)
-            taskDescTv.visibility = View.GONE
-            taskLoctionTv.visibility = View.GONE
-            taskAddressTv.visibility = View.GONE
-            locationTitleTv.visibility = View.GONE
+                taskTitleTv.text = task.taskTitle
+                taskDateTv.text = "Over Duo"
+                context?.let { taskDateTv.setTextColor(it.getColor(R.color.red)) }
+                context?.let { taskItem.setBackgroundColor(it.getColor(R.color.gray)) }
+                taskDescTv.visibility = View.GONE
+                taskLoctionTv.visibility = View.GONE
+                taskAddressTv.visibility = View.GONE
+                locationTitleTv.visibility = View.GONE
+                taskCheckBox.visibility = View.GONE
+            }else{
+                taskTitleTv.text = task.taskTitle
+                taskDateTv.text = DateFormat.format(DATE_FORMAT, task.taskDate)
+                taskDescTv.visibility = View.GONE
+                taskLoctionTv.visibility = View.GONE
+                taskAddressTv.visibility = View.GONE
+                locationTitleTv.visibility = View.GONE
                 if (task.isChecked == 1){
                     taskCheckBox.setImageResource(R.drawable.ic_checked)
                 }
@@ -183,14 +189,17 @@ class AllTasksFragment : Fragment() {
 
                     }
                 }
+            }
+
         }
 
     }
 
 
+
     private inner class TaskAdapter(var tasks:List<Task>):
         RecyclerView.Adapter<AllTasksFragment.TaskViewHolder>() {
-        var counter = 1
+        var counter = 0
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllTasksFragment.TaskViewHolder {
             val view = layoutInflater.inflate(R.layout.home_task_item, parent,false)
@@ -199,9 +208,9 @@ class AllTasksFragment : Fragment() {
 
         override fun onBindViewHolder(holder: AllTasksFragment.TaskViewHolder, position: Int) {
             val task = tasks[position]
-            counter +=1
-            Log.d("from bind holder","hi $counter")
-            holder.bind(task,counter)
+            counter = tasks.size
+            Log.d("Rana","hi $counter")
+            holder.bind(task)
 
 
         }
@@ -210,6 +219,9 @@ class AllTasksFragment : Fragment() {
             return tasks.size
         }
     }
+
+
+
 
     private fun formatDate(fotmatDate: Date):Date{
         val sdf = SimpleDateFormat("dd/MM/yyyy")

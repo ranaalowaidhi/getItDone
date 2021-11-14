@@ -13,6 +13,7 @@ data class Task (
     var taskDescription:String = "",
     var taskCategory:String = "",
     var taskDate:Date = Date(),
+    var creationDate:Date = Date(),
     var isChecked:Int = 0,
     var taskLocation:String="",
     var taskAddress:String =""){

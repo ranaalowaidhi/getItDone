@@ -1,9 +1,11 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+
 }
 
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdk 31
@@ -48,6 +50,10 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.0-beta01"
     implementation "androidx.room:room-ktx:2.4.0-beta01"
     implementation 'com.google.android.gms:play-services-maps:18.0.0'
-
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.firebase:firebase-database:20.0.2'
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.2'
 
 }

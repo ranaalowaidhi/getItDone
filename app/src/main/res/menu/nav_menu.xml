@@ -11,9 +11,5 @@
         android:title="@string/tasks"
         android:icon="@drawable/ic_tasks"/>
 
-    <item
-        android:id="@+id/profile_btn"
-        android:title="@string/profile"
-        android:icon="@drawable/ic_profile"/>
 
 </menu>
